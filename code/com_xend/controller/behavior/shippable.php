@@ -125,7 +125,7 @@ class ComXendControllerBehaviorShippable extends KControllerBehaviorAbstract
                     $config       = JFactory::getConfig();
                     $emailSubject = sprintf(JText::_($this->_email_subject_tmpl), $data['shippers_reference']);
                     $trackingLink = "http://tracker.xend.com.ph/?waybill={$data['tracking_no']}";
-                    $orderLink    = JUri::root() . 'index.php/home/my-orders?view=order&id=' . $data['shippers_reference'];
+                    $orderLink    = JUri::root() . 'home/my-orders?view=order&id=' . $data['shippers_reference'];
                     $emailBody    = sprintf(JText::_($this->_email_body_tmpl),
                         $data['receiver_name'],
                         $orderLink,
