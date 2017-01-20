@@ -17,6 +17,13 @@
 class ComXendControllerBehaviorShippable extends KControllerBehaviorAbstract
 {
     /**
+     * Courier name
+     *
+     * @var string
+     */
+    protected $_courier = 'xend';
+
+    /**
      * List of actions
      *
      * @var array
@@ -83,6 +90,7 @@ class ComXendControllerBehaviorShippable extends KControllerBehaviorAbstract
                 'receiver_name'      => 'name',
                 'receiver_email'     => '_user_email',
                 'tracking_no'        => 'tracking_reference',
+                'couriers'           => '_couriers',
             ),
             'email_subject_tmpl' => 'COM_NUCLEONPLUS_ORDER_EMAIL_SHIPPED_SUBJECT',
             'email_body_tmpl'    => 'COM_NUCLEONPLUS_ORDER_EMAIL_SHIPPED_BODY',
@@ -121,11 +129,16 @@ class ComXendControllerBehaviorShippable extends KControllerBehaviorAbstract
                 {
                     $data = $this->getData($entity);
 
+                    // Check if the entity is using Xend as courier
+                    if (!in_array($this->_courier, $data['couriers'])) {
+                        continue;
+                    }
+
                     // Send email notification
                     $config       = JFactory::getConfig();
                     $emailSubject = sprintf(JText::_($this->_email_subject_tmpl), $data['shippers_reference']);
                     $trackingLink = "http://tracker.xend.com.ph/?waybill={$data['tracking_no']}";
-                    $orderLink    = JUri::root() . 'home/my-orders?view=order&id=' . $data['shippers_reference'];
+                    $orderLink    = JUri::root() . "home/my-orders?view=order&id={$data['shippers_reference']}";
                     $emailBody    = sprintf(JText::_($this->_email_body_tmpl),
                         $data['receiver_name'],
                         $orderLink,
