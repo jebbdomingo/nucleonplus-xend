@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<project name="Xend" default="build">
+
+    <property file="build.properties" />
+
+    <target name="build">
+        <delete dir="tmp" includeemptydirs="true" />
+
+        <copy todir="tmp">
+            <fileset dir="../../code" />
+        </copy>
+
+        <move file="tmp/administrator/components/com_xend/xend.xml" tofile="tmp/xend.xml" overwrite="true" />
+        <copy todir="tmp/resources/install">
+            <fileset dir="tmp/administrator/components/com_xend/resources/install/" />
+        </copy>
+
+        <delete file="com_xend.zip" quiet="true" />
+        <zip destfile="com_xend.zip" basedir="tmp" />
+
+        <delete dir="tmp" includeemptydirs="true" />
+    </target>
+</project>
