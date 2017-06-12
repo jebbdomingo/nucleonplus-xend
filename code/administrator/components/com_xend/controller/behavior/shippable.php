@@ -127,10 +127,11 @@ class ComXendControllerBehaviorShippable extends KControllerBehaviorAbstract
 
                 foreach ($entities as $entity)
                 {
-                    $data = $this->getData($entity);
+                    $data     = $this->getData($entity);
+                    $couriers = isset($data['couriers']) ? $data['couriers'] : array();
 
                     // Check if the entity is using Xend as courier
-                    if (!in_array($this->_courier, $data['couriers'])) {
+                    if (!in_array($this->_courier, $couriers)) {
                         continue;
                     }
 
